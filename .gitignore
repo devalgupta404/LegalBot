@@ -8,3 +8,50 @@ captures
 .cxx
 local.properties
 xcuserdata
+
+# Android specific
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+release/
+
+# Firebase
+google-services.json
+GoogleService-Info.plist
+
+# API Keys and sensitive data
+*.keystore
+*.jks
+keystore.properties
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE files
+.vscode/
+*.swp
+*.swo
+*~
+
+# Gradle
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+
+# Local configuration
+local.properties
