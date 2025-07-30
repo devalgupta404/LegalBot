@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "429837322189",
+    "project_id": "lawbot-cbf5b",
+    "storage_bucket": "lawbot-cbf5b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:429837322189:android:72fac7a2160c7cc085e684",
+        "android_client_info": {
+          "package_name": "com.example.lawbot.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "429837322189-4hhh7lna9kfip7hfac5ct86im0p0t3d6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lawbot.android",
+            "certificate_hash": "2c3648f784d1c307f3974925f97d33f4294884d5"
+          }
+        },
+        {
+          "client_id": "429837322189-l4u7dqms96svdchl76dl9mghhat3p141.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5F6gW98F6Pp67bFSXjy5zMF-kg3ue6bc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "429837322189-l4u7dqms96svdchl76dl9mghhat3p141.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
