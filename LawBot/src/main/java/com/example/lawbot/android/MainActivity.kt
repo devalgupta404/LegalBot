@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -35,12 +36,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.animation.core.*
+import android.net.Uri
+import android.content.Intent
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
         ContextProvider.setContext(this)
+        
+        // Handle GitHub OAuth callback
+        handleOAuthCallback(intent)
         
         setContent {
             var isDarkMode by remember { mutableStateOf(false) }
@@ -117,6 +123,21 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleOAuthCallback(intent)
+    }
+    
+    private fun handleOAuthCallback(intent: Intent) {
+        intent.data?.let { uri ->
+            if (uri.scheme == "com.example.lawbot.android") {
+                // Handle GitHub OAuth callback
+                println("Received OAuth callback: $uri")
+                // The Firebase OAuth provider will handle the callback automatically
             }
         }
     }

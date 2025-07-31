@@ -34,6 +34,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.OAuthProvider
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -332,11 +333,50 @@ fun LoginScreen(
             
             Spacer(modifier = Modifier.height(16.dp))
             
-            // GitHub Sign In Button (Note: GitHub OAuth requires additional setup)
+            // GitHub Sign In Button
             OutlinedButton(
                 onClick = {
-                    // GitHub OAuth implementation would go here
-                    // This requires setting up GitHub OAuth app and Firebase GitHub provider
+                    scope.launch {
+                        isLoading = true
+                        try {
+                            val auth = FirebaseAuth.getInstance()
+                            
+                            // Create GitHub OAuth provider
+                            val provider = OAuthProvider.newBuilder("github.com")
+                                .setScopes(listOf("user:email"))
+                                .build()
+                            
+                            // Start the sign-in process
+                            val pendingResultTask = auth.pendingAuthResult
+                            if (pendingResultTask != null) {
+                                // There's already a sign-in in progress
+                                try {
+                                    val result = pendingResultTask.await()
+                                    println("GitHub sign-in successful")
+                                    onLoginSuccess()
+                                } catch (e: Exception) {
+                                    println("GitHub sign-in failed: ${e.message}")
+                                    errorMessage = "GitHub sign-in failed: ${e.message}"
+                                }
+                            } else {
+                                // Start new sign-in
+                                auth.startActivityForSignInWithProvider(context as android.app.Activity, provider)
+                                    .addOnSuccessListener { authResult ->
+                                        println("GitHub sign-in successful: ${authResult.user?.email}")
+                                        onLoginSuccess()
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        println("GitHub sign-in failed: ${exception.message}")
+                                        errorMessage = "GitHub sign-in failed: ${exception.message}"
+                                    }
+                            }
+                        } catch (e: Exception) {
+                            println("GitHub sign-in error: ${e.message}")
+                            errorMessage = "GitHub sign-in error: ${e.message}"
+                        } finally {
+                            isLoading = false
+                        }
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -351,7 +391,7 @@ fun LoginScreen(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // GitHub icon placeholder
+                    // GitHub icon
                     Surface(
                         shape = RoundedCornerShape(4.dp),
                         color = Color.Transparent,
@@ -360,7 +400,7 @@ fun LoginScreen(
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .background(Color.Black, RoundedCornerShape(4.dp))
+                                .background(Color(0xFF24292E), RoundedCornerShape(4.dp))
                         )
                     }
                     Spacer(modifier = Modifier.width(12.dp))
